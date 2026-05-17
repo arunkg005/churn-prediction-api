@@ -39,43 +39,6 @@ body {
   margin-bottom: 14px;
 }
 
-.connection-panel {
-  width: min(100%, 420px);
-  display: grid;
-  gap: 8px;
-  justify-items: stretch;
-}
-
-.api-label {
-  font-size: 0.75rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.api-controls {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.api-controls input {
-  flex: 1 1 auto;
-  min-width: 0;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 10px 14px;
-  background: rgba(255, 255, 255, 0.78);
-  color: var(--text);
-  font: inherit;
-}
-
-.api-hint {
-  margin: 0;
-  font-size: 0.84rem;
-  color: var(--muted);
-}
-
 .kicker,
 .section-title {
   margin: 0 0 8px;
@@ -391,15 +354,6 @@ button:focus-visible {
   .topbar,
   .form-head,
   .form-footer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .connection-panel {
-    width: 100%;
-  }
-
-  .api-controls {
     flex-direction: column;
     align-items: stretch;
   }

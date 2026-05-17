@@ -16,18 +16,10 @@
     <header class="topbar">
       <div>
         <p class="kicker">Customer churn</p>
-        <h1>Prediction dashboard</h1>
-        <p class="hint">Update values and run prediction.</p>
+        <h1>Churn prediction demo</h1>
+        <p class="hint">A visual client for the churn API service.</p>
       </div>
-      <div class="connection-panel">
-        <label class="api-label" for="apiUrlInput">API URL</label>
-        <div class="api-controls">
-          <input id="apiUrlInput" type="url" placeholder="https://your-api.onrender.com" aria-label="API URL">
-          <button type="button" class="ghost-button" id="saveApiUrl">Save</button>
-        </div>
-        <p class="api-hint">Saved in this browser so the Vercel site can point at your deployed API.</p>
-        <p class="service" id="serviceText" aria-live="polite">API URL not configured</p>
-      </div>
+      <p class="service" id="serviceText" aria-live="polite">Connected to API service</p>
     </header>
 
     <section class="layout">

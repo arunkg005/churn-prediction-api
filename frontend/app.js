@@ -1,8 +1,6 @@
 const form = document.getElementById('predictionForm');
 const statusText = document.getElementById('statusText');
 const serviceText = document.getElementById('serviceText');
-const apiUrlInput = document.getElementById('apiUrlInput');
-const saveApiUrlButton = document.getElementById('saveApiUrl');
 const loadDefaultsButton = document.getElementById('loadDefaults');
 const loadSampleButton = document.getElementById('loadSample');
 const submitButton = document.getElementById('submitButton');
@@ -18,14 +16,14 @@ function resolveApiBaseUrl() {
   const configured = (window.__API_BASE_URL__ || '').trim();
 
   if (!configured) {
-    return '';
+    return 'https://arun-churn-api.onrender.com';
   }
 
   return configured.replace(/\/$/, '');
 }
 
-let apiBaseUrl = resolveApiBaseUrl();
-let predictUrl = apiBaseUrl ? `${apiBaseUrl}/predict` : '';
+const apiBaseUrl = resolveApiBaseUrl();
+const predictUrl = `${apiBaseUrl}/predict`;
 
 const sampleCustomer = {
   gender: 'Male',
@@ -113,8 +111,6 @@ function setBusyState(isBusy) {
   submitButton.disabled = isBusy;
   loadDefaultsButton.disabled = isBusy;
   loadSampleButton.disabled = isBusy;
-  saveApiUrlButton.disabled = isBusy;
-  apiUrlInput.disabled = isBusy;
   submitButton.textContent = isBusy ? 'Running...' : 'Run prediction';
 }
 
@@ -211,12 +207,6 @@ async function parseJsonSafely(response) {
 }
 
 async function runPrediction() {
-  if (!apiBaseUrl) {
-    setStatus('Set and save the API URL first.', 'error');
-    setService('API URL not configured', 'error');
-    return;
-  }
-
   if (!form.checkValidity()) {
     form.reportValidity();
     setStatus('Please complete all required fields.', 'error');
@@ -253,27 +243,6 @@ async function runPrediction() {
   }
 }
 
-function saveApiUrl(url) {
-  const nextUrl = url.trim().replace(/\/$/, '');
-
-  if (!nextUrl) {
-    window.localStorage.removeItem('apiBaseUrl');
-    window.__API_BASE_URL__ = '';
-    apiBaseUrl = '';
-    predictUrl = '';
-    setService('API URL not configured', 'error');
-    setStatus('Enter an API URL and save it.', 'error');
-    return;
-  }
-
-  window.localStorage.setItem('apiBaseUrl', nextUrl);
-  window.__API_BASE_URL__ = nextUrl;
-  apiBaseUrl = nextUrl;
-  predictUrl = `${nextUrl}/predict`;
-  setService(`API connected: ${nextUrl}`);
-  setStatus('API URL saved.', 'success');
-}
-
 loadDefaultsButton.addEventListener('click', () => {
   clearCustomerInputs();
   resetResultState();
@@ -285,18 +254,12 @@ loadSampleButton.addEventListener('click', () => {
   setStatus('Sample loaded.');
 });
 
-saveApiUrlButton.addEventListener('click', () => {
-  saveApiUrl(apiUrlInput.value || '');
-});
-
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   await runPrediction();
 });
 
-apiUrlInput.value = apiBaseUrl;
-
 clearCustomerInputs();
 resetResultState();
-setService(apiBaseUrl ? `API connected: ${apiBaseUrl}` : 'API URL not configured', apiBaseUrl ? 'idle' : 'error');
+setService(`API connected: ${apiBaseUrl}`);
 setStatus('Ready.');

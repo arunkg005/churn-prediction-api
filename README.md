@@ -105,8 +105,7 @@ python test_api.py
 - Deploy the Flask API as its own service with `gunicorn backend.app:app`.
 - Keep the backend root and source the `requirements.txt` from the repository root, or use [render.yaml](render.yaml) for Render.
 - Deploy the `frontend/` folder as a separate static site on Vercel, Netlify, or similar.
-- On the Vercel site, save the Render API URL once in the dashboard's API URL field. The site stores it in browser local storage.
-- You can also prefill the UI by opening it with `?apiUrl=https://your-api.onrender.com`.
+- The frontend is preconfigured to call `https://arun-churn-api.onrender.com`, so no user input is needed.
 - Keep the backend service API-only; the dashboard must not be served from Flask in production.
 - Use the `Procfile` for the backend service on platforms like Render or Heroku.
 
