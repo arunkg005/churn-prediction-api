@@ -33,161 +33,189 @@
         </div>
 
         <div class="field-grid">
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Gender</span>
-              <span class="field-icon" title="Basic demographic context" aria-hidden="true">i</span>
+              <span class="field-label-text">Gender</span>
+              <button type="button" class="info-trigger" data-note-target="note-gender" aria-label="Show info for Gender" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="gender" data-field="gender" required>
               <option value="Female">Female</option>
               <option value="Male">Male</option>
             </select>
-            <p class="field-help">Role: basic demographic context. Effect: usually a small signal.</p>
+            <div class="field-note" id="note-gender" hidden>Role: basic demographic context. Effect: usually a small signal.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Partner</span>
-              <span class="field-icon" title="Household status" aria-hidden="true">i</span>
+              <span class="field-label-text">Partner</span>
+              <button type="button" class="info-trigger" data-note-target="note-partner" aria-label="Show info for Partner" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="Partner" data-field="Partner" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
             </select>
-            <p class="field-help">Role: household status. Effect: partner customers often churn less.</p>
+            <div class="field-note" id="note-partner" hidden>Role: household status. Effect: partner customers often churn less.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Dependents</span>
-              <span class="field-icon" title="Family commitment" aria-hidden="true">i</span>
+              <span class="field-label-text">Dependents</span>
+              <button type="button" class="info-trigger" data-note-target="note-dependents" aria-label="Show info for Dependents" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="Dependents" data-field="Dependents" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
             </select>
-            <p class="field-help">Role: family commitment. Effect: dependents usually lower risk.</p>
+            <div class="field-note" id="note-dependents" hidden>Role: family commitment. Effect: dependents usually lower risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Phone service</span>
-              <span class="field-icon" title="Base service flag" aria-hidden="true">i</span>
+              <span class="field-label-text">Phone service</span>
+              <button type="button" class="info-trigger" data-note-target="note-phone-service" aria-label="Show info for Phone service" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="PhoneService" data-field="PhoneService" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
             </select>
-            <p class="field-help">Role: base service flag. Effect: small signal unless bundled.</p>
+            <div class="field-note" id="note-phone-service" hidden>Role: base service flag. Effect: small signal unless bundled.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Multiple lines</span>
-              <span class="field-icon" title="Service depth" aria-hidden="true">i</span>
+              <span class="field-label-text">Multiple lines</span>
+              <button type="button" class="info-trigger" data-note-target="note-multiple-lines" aria-label="Show info for Multiple lines" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="MultipleLines" data-field="MultipleLines" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="No phone service">No phone service</option>
             </select>
-            <p class="field-help">Role: service depth. Effect: more lines often lower churn.</p>
+            <div class="field-note" id="note-multiple-lines" hidden>Role: service depth. Effect: more lines often lower churn.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Online security</span>
-              <span class="field-icon" title="Security add-on" aria-hidden="true">i</span>
+              <span class="field-label-text">Online security</span>
+              <button type="button" class="info-trigger" data-note-target="note-online-security" aria-label="Show info for Online security" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="OnlineSecurity" data-field="OnlineSecurity" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="No internet service">No internet service</option>
             </select>
-            <p class="field-help">Role: security add-on. Effect: yes usually lowers risk.</p>
+            <div class="field-note" id="note-online-security" hidden>Role: security add-on. Effect: yes usually lowers risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Online backup</span>
-              <span class="field-icon" title="Backup add-on" aria-hidden="true">i</span>
+              <span class="field-label-text">Online backup</span>
+              <button type="button" class="info-trigger" data-note-target="note-online-backup" aria-label="Show info for Online backup" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="OnlineBackup" data-field="OnlineBackup" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="No internet service">No internet service</option>
             </select>
-            <p class="field-help">Role: backup add-on. Effect: yes usually lowers risk.</p>
+            <div class="field-note" id="note-online-backup" hidden>Role: backup add-on. Effect: yes usually lowers risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Device protection</span>
-              <span class="field-icon" title="Protection add-on" aria-hidden="true">i</span>
+              <span class="field-label-text">Device protection</span>
+              <button type="button" class="info-trigger" data-note-target="note-device-protection" aria-label="Show info for Device protection" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="DeviceProtection" data-field="DeviceProtection" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="No internet service">No internet service</option>
             </select>
-            <p class="field-help">Role: protection add-on. Effect: yes usually lowers risk.</p>
+            <div class="field-note" id="note-device-protection" hidden>Role: protection add-on. Effect: yes usually lowers risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Tech support</span>
-              <span class="field-icon" title="Support access" aria-hidden="true">i</span>
+              <span class="field-label-text">Tech support</span>
+              <button type="button" class="info-trigger" data-note-target="note-tech-support" aria-label="Show info for Tech support" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="TechSupport" data-field="TechSupport" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="No internet service">No internet service</option>
             </select>
-            <p class="field-help">Role: support access. Effect: yes strongly lowers risk.</p>
+            <div class="field-note" id="note-tech-support" hidden>Role: support access. Effect: yes strongly lowers risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Streaming TV</span>
-              <span class="field-icon" title="Entertainment usage" aria-hidden="true">i</span>
+              <span class="field-label-text">Streaming TV</span>
+              <button type="button" class="info-trigger" data-note-target="note-streaming-tv" aria-label="Show info for Streaming TV" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="StreamingTV" data-field="StreamingTV" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="No internet service">No internet service</option>
             </select>
-            <p class="field-help">Role: entertainment usage. Effect: yes can slightly lower risk.</p>
+            <div class="field-note" id="note-streaming-tv" hidden>Role: entertainment usage. Effect: yes can slightly lower risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Streaming movies</span>
-              <span class="field-icon" title="Entertainment usage" aria-hidden="true">i</span>
+              <span class="field-label-text">Streaming movies</span>
+              <button type="button" class="info-trigger" data-note-target="note-streaming-movies" aria-label="Show info for Streaming movies" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="StreamingMovies" data-field="StreamingMovies" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
               <option value="No internet service">No internet service</option>
             </select>
-            <p class="field-help">Role: entertainment usage. Effect: yes can slightly lower risk.</p>
+            <div class="field-note" id="note-streaming-movies" hidden>Role: entertainment usage. Effect: yes can slightly lower risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Contract</span>
-              <span class="field-icon" title="Commitment level" aria-hidden="true">i</span>
+              <span class="field-label-text">Contract</span>
+              <button type="button" class="info-trigger" data-note-target="note-contract" aria-label="Show info for Contract" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="Contract" data-field="Contract" required>
               <option value="Month-to-month">Month-to-month</option>
               <option value="One year">One year</option>
               <option value="Two year">Two year</option>
             </select>
-            <p class="field-help">Role: commitment level. Effect: month-to-month raises risk; longer terms lower it.</p>
+            <div class="field-note" id="note-contract" hidden>Role: commitment level. Effect: month-to-month raises risk; longer terms lower it.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Paperless billing</span>
-              <span class="field-icon" title="Billing preference" aria-hidden="true">i</span>
+              <span class="field-label-text">Paperless billing</span>
+              <button type="button" class="info-trigger" data-note-target="note-paperless-billing" aria-label="Show info for Paperless billing" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="PaperlessBilling" data-field="PaperlessBilling" required>
               <option value="No">No</option>
               <option value="Yes">Yes</option>
             </select>
-            <p class="field-help">Role: billing preference. Effect: can slightly raise risk.</p>
+            <div class="field-note" id="note-paperless-billing" hidden>Role: billing preference. Effect: can slightly raise risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Payment method</span>
-              <span class="field-icon" title="Payment behavior" aria-hidden="true">i</span>
+              <span class="field-label-text">Payment method</span>
+              <button type="button" class="info-trigger" data-note-target="note-payment-method" aria-label="Show info for Payment method" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <select name="PaymentMethod" data-field="PaymentMethod" required>
               <option value="Electronic check">Electronic check</option>
@@ -195,31 +223,37 @@
               <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
               <option value="Credit card (automatic)">Credit card (automatic)</option>
             </select>
-            <p class="field-help">Role: payment behavior. Effect: electronic check usually raises risk.</p>
+            <div class="field-note" id="note-payment-method" hidden>Role: payment behavior. Effect: electronic check usually raises risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Tenure</span>
-              <span class="field-icon" title="Relationship length" aria-hidden="true">i</span>
+              <span class="field-label-text">Tenure</span>
+              <button type="button" class="info-trigger" data-note-target="note-tenure" aria-label="Show info for Tenure" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <input type="number" name="tenure" data-field="tenure" min="0" max="100" step="1" placeholder="Enter tenure" required>
-            <p class="field-help">Role: relationship length. Effect: lower tenure usually raises risk.</p>
+            <div class="field-note" id="note-tenure" hidden>Role: relationship length. Effect: lower tenure usually raises risk.</div>
           </label>
-          <label class="field field-card">
+          <label class="field">
             <div class="field-top">
-              <span>Monthly charges</span>
-              <span class="field-icon" title="Ongoing bill size" aria-hidden="true">i</span>
+              <span class="field-label-text">Monthly charges</span>
+              <button type="button" class="info-trigger" data-note-target="note-monthly-charges" aria-label="Show info for Monthly charges" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <input type="number" name="MonthlyCharges" data-field="MonthlyCharges" min="0" step="0.01" placeholder="Enter monthly charges" required>
-            <p class="field-help">Role: ongoing bill size. Effect: higher charges usually raise risk.</p>
+            <div class="field-note" id="note-monthly-charges" hidden>Role: ongoing bill size. Effect: higher charges usually raise risk.</div>
           </label>
-          <label class="field field-card field-full">
+          <label class="field field-full">
             <div class="field-top">
-              <span>Total charges</span>
-              <span class="field-icon" title="Lifetime spend" aria-hidden="true">i</span>
+              <span class="field-label-text">Total charges</span>
+              <button type="button" class="info-trigger" data-note-target="note-total-charges" aria-label="Show info for Total charges" aria-expanded="false">
+                <img src="./info-icon.svg" alt="" aria-hidden="true">
+              </button>
             </div>
             <input type="number" name="TotalCharges" data-field="TotalCharges" min="0" step="0.01" placeholder="Enter total charges" required>
-            <p class="field-help">Role: lifetime spend. Effect: higher totals often lower risk.</p>
+            <div class="field-note" id="note-total-charges" hidden>Role: lifetime spend. Effect: higher totals often lower risk.</div>
           </label>
         </div>
 

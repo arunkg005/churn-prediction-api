@@ -11,6 +11,7 @@ const riskLabel = document.getElementById('riskLabel');
 const predictionText = document.getElementById('predictionText');
 const riskMeter = document.getElementById('riskMeter');
 const suggestionsList = document.getElementById('suggestionsList');
+const infoButtons = Array.from(document.querySelectorAll('.info-trigger'));
 
 function resolveApiBaseUrl() {
   const configured = (window.__API_BASE_URL__ || '').trim();
@@ -126,6 +127,36 @@ function setBusyState(isBusy) {
   loadDefaultsButton.disabled = isBusy;
   loadSampleButton.disabled = isBusy;
   submitButton.textContent = isBusy ? 'Running...' : 'Run prediction';
+}
+
+function closeInfoNotes() {
+  infoButtons.forEach((button) => {
+    const note = document.getElementById(button.dataset.noteTarget);
+
+    if (note) {
+      note.hidden = true;
+    }
+
+    button.setAttribute('aria-expanded', 'false');
+  });
+}
+
+function toggleInfoNote(button) {
+  const note = document.getElementById(button.dataset.noteTarget);
+
+  if (!note) {
+    return;
+  }
+
+  const isOpen = !note.hidden;
+  closeInfoNotes();
+
+  if (isOpen) {
+    return;
+  }
+
+  note.hidden = false;
+  button.setAttribute('aria-expanded', 'true');
 }
 
 function parseRiskPercent(value) {
@@ -260,12 +291,34 @@ async function runPrediction() {
 loadDefaultsButton.addEventListener('click', () => {
   clearCustomerInputs();
   resetResultState();
+  closeInfoNotes();
   setStatus('Fields cleared. Select your own values.', 'success');
 });
 
 loadSampleButton.addEventListener('click', () => {
   applyCustomer(sampleCustomer);
+  closeInfoNotes();
   setStatus('Sample loaded.');
+});
+
+infoButtons.forEach((button) => {
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleInfoNote(button);
+  });
+});
+
+document.addEventListener('click', (event) => {
+  if (!event.target.closest('.info-trigger') && !event.target.closest('.field-note')) {
+    closeInfoNotes();
+  }
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeInfoNotes();
+  }
 });
 
 form.addEventListener('submit', async (event) => {
