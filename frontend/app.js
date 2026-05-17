@@ -107,6 +107,20 @@ function setService(message, state = 'idle') {
   serviceText.style.color = '';
 }
 
+async function checkApiConnection() {
+  try {
+    const response = await fetch(apiBaseUrl, { method: 'GET' });
+
+    if (!response.ok) {
+      throw new Error('API unavailable');
+    }
+
+    setService('Connected');
+  } catch {
+    setService('Not connected', 'error');
+  }
+}
+
 function setBusyState(isBusy) {
   submitButton.disabled = isBusy;
   loadDefaultsButton.disabled = isBusy;
@@ -237,7 +251,7 @@ async function runPrediction() {
     setService('Connected');
   } catch (error) {
     setStatus(error.message || 'Unable to get prediction.', 'error');
-    setService('Connection failed', 'error');
+    setService('Not connected', 'error');
   } finally {
     setBusyState(false);
   }
@@ -261,5 +275,5 @@ form.addEventListener('submit', async (event) => {
 
 clearCustomerInputs();
 resetResultState();
-setService(`API connected: ${apiBaseUrl}`);
+checkApiConnection();
 setStatus('Ready.');
