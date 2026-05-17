@@ -1,113 +1,198 @@
-# Churn Prediction API
+# Churn Prediction Dashboard
 
-This project provides a RESTful API for predicting customer churn in the telecom sector. It uses a machine learning model trained on the `telecom_churn.csv` dataset to make predictions based on customer data.
+A churn prediction service for telecom customers, split into two separate parts:
 
-## Features
-- Train a churn prediction model using historical telecom data
-- Expose a REST API for making churn predictions
-- Simple and easy-to-use endpoints
+- A Flask API that serves predictions from a trained machine learning model.
+- A static dashboard UI that calls the API and shows the result visually.
 
-## Split Architecture
-- `backend/`: Flask API module that serves JSON from `/predict`
-- `frontend/`: static dashboard UI hosted separately from the API
-- `churn_model.pkl`: shared trained model used by the backend only
+The backend and frontend are deployed independently so the API behaves like a reusable service and the dashboard stays lightweight.
 
-## Project Structure
-- `app.py`: Thin wrapper that launches the backend API module
-- `backend/app.py`: Main Flask API application
-- `frontend/index.html`: Standalone dashboard entry point
-- `frontend/app.js`: Browser logic for calling the API
+## Architecture
+
+- `backend/` contains the Flask API.
+- `frontend/` contains the static dashboard UI.
+- `app.py` is a local helper for starting the backend, frontend, or both.
+- `churn_model.pkl` is the saved model used by the API.
+
+The dashboard connects to the API automatically. It does not ask the user for an API URL.
+
+## Tech Stack
+
+- Python 3.13.x
+- Flask
+- pandas
+- numpy
+- scikit-learn
+- gunicorn for production serving
+- Plain HTML, CSS, and JavaScript for the dashboard
+
+## Project Files
+
+- `backend/app.py`: Flask API with `/` and `/predict`
+- `frontend/index.html`: Dashboard markup
+- `frontend/app.js`: Dashboard behavior and API calls
 - `frontend/styles.css`: Dashboard styling
-- `train.py`: Script to train the machine learning model
-- `telecom_churn.csv`: Dataset used for training
-- `test_api.py`: Tests for the API endpoints
-- `requirements.txt`: Python dependencies
-- `Procfile`: For deployment (e.g., on Heroku)
+- `frontend/config.js`: Fixed API base URL for the dashboard
+- `app.py`: Local launcher for development
+- `train.py`: Model training script
+- `telecom_churn.csv`: Training dataset
+- `test_api.py`: API smoke test
+- `requirements.txt`: Runtime dependencies
+- `Procfile`: Production start command for the API
+- `render.yaml`: Render deployment config
 
 ## Getting Started
 
 ### Prerequisites
+
 - Python 3.13.x
 - pip
 
-### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/arunkg005/churn-prediction-api.git
-   cd churn-prediction-api
-   ```
-2. Create and activate a fresh virtual environment with Python 3.13:
-  ```bash
-  python -m venv .venv
-  ```
-  On Windows PowerShell:
-  ```powershell
-  .\.venv\Scripts\Activate.ps1
-  ```
-  On Windows Command Prompt:
-  ```cmd
-  .\.venv\Scripts\activate.bat
-  ```
-3. Upgrade pip and install dependencies:
-   ```bash
-  python -m pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
+> This project was validated on Python 3.13.3. Python 3.14 on Windows can fail while building NumPy from source.
 
-> Note: this project is validated on Python 3.13. Using Python 3.14 on Windows may fail while building NumPy from source.
+### Clone the repository
 
-### Training the Model
-Run the following command to train the model:
 ```bash
-python train.py
+git clone https://github.com/arunkg005/churn-prediction-api.git
+cd churn-prediction-api
 ```
-This will generate a model file used by the API for predictions.
 
-### Running the project
-Use the local helper in [app.py](app.py) for development, or start the two modules separately:
+### Create a virtual environment
+
+Windows PowerShell:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
+
+Windows Command Prompt:
+
+```cmd
+python -m venv .venv
+.\.venv\Scripts\activate.bat
+```
+
+### Install dependencies
+
+```bash
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## Run Locally
+
+### Start the API only
+
 ```bash
 python app.py backend
+```
+
+This starts the Flask API on `http://127.0.0.1:5000`.
+
+### Start the dashboard only
+
+```bash
 python app.py frontend
+```
+
+This serves the static dashboard on `http://127.0.0.1:3000`.
+
+### Start both together
+
+```bash
 python app.py all
+```
+
+This launches the backend API and the frontend dashboard at the same time.
+
+### Alternative static frontend server
+
+```bash
 python -m http.server 3000 -d frontend
 ```
 
-- `python app.py backend` starts the Flask API on `http://127.0.0.1:5000`
-- `python app.py frontend` starts the dashboard UI on `http://127.0.0.1:3000`
-- `python app.py all` starts both servers at once
-- `python -m http.server 3000 -d frontend` starts the static UI without the helper
+## API
 
-For production deployment, use the backend service and static UI separately. The backend should not serve the dashboard.
+### Health check
 
-If you are using the virtual environment, run the command after activating it so the project uses the pinned dependencies.
+`GET /`
 
-### API Usage
-- **POST /predict**: Predict churn for a customer.
-  - Request: JSON with customer features
-  - Response: JSON with churn prediction
+Returns a simple JSON status response.
 
-Example request:
+### Prediction
+
+`POST /predict`
+
+Send a JSON body with the customer fields used by the model.
+
+Example:
+
 ```json
 {
-  "feature1": value1,
-  "feature2": value2,
-  ...
+  "gender": "Male",
+  "Partner": "No",
+  "Dependents": "No",
+  "PhoneService": "Yes",
+  "MultipleLines": "Yes",
+  "OnlineSecurity": "No",
+  "OnlineBackup": "No",
+  "DeviceProtection": "No",
+  "TechSupport": "No",
+  "StreamingTV": "Yes",
+  "StreamingMovies": "Yes",
+  "Contract": "Month-to-month",
+  "PaperlessBilling": "Yes",
+  "PaymentMethod": "Electronic check",
+  "tenure": 5,
+  "MonthlyCharges": 95.2,
+  "TotalCharges": 476
 }
 ```
 
-### Testing
-Run the API tests with:
+The response includes the churn prediction and a risk score.
+
+## Train the Model
+
+If you want to retrain the model from the dataset, run:
+
+```bash
+python train.py
+```
+
+This generates the `churn_model.pkl` file consumed by the API.
+
+## Test the API
+
 ```bash
 python test_api.py
 ```
 
-### Deployment
-- Deploy the Flask API as its own service with `gunicorn backend.app:app`.
-- Keep the backend root and source the `requirements.txt` from the repository root, or use [render.yaml](render.yaml) for Render.
-- Deploy the `frontend/` folder as a separate static site on Vercel, Netlify, or similar.
-- The frontend is preconfigured to call `https://arun-churn-api.onrender.com`, so no user input is needed.
-- Keep the backend service API-only; the dashboard must not be served from Flask in production.
-- Use the `Procfile` for the backend service on platforms like Render or Heroku.
+This performs a smoke test against the health and prediction endpoints.
 
-## License
-MIT License
+## Deployment
+
+### Backend API on Render
+
+- Start command: `gunicorn backend.app:app`
+- Use the repository root `requirements.txt`
+- Keep the API service separate from the frontend
+
+The backend is deployed as a standalone Flask service. It should not serve the dashboard in production.
+
+### Frontend dashboard on Vercel
+
+- Deploy the `frontend/` folder as a static site
+- The dashboard is preconfigured to call the Render API URL
+- No runtime API URL input is required from the user
+
+### Process files
+
+- `Procfile` is included for platform compatibility
+- `render.yaml` contains the Render service definition
+
+## Notes
+
+- The dashboard uses short helper notes on each input to explain what the field means and how it affects churn risk.
+- The UI is intentionally separate from the API so the backend can be reused independently.
+- The frontend shows connection status automatically on load.
