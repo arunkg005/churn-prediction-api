@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Churn Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./config.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="kicker">Customer churn</p>
+        <h1>Prediction dashboard</h1>
+        <p class="hint">Update values and run prediction.</p>
+      </div>
+      <div class="connection-panel">
+        <label class="api-label" for="apiUrlInput">API URL</label>
+        <div class="api-controls">
+          <input id="apiUrlInput" type="url" placeholder="https://your-api.onrender.com" aria-label="API URL">
+          <button type="button" class="ghost-button" id="saveApiUrl">Save</button>
+        </div>
+        <p class="api-hint">Saved in this browser so the Vercel site can point at your deployed API.</p>
+        <p class="service" id="serviceText" aria-live="polite">API URL not configured</p>
+      </div>
+    </header>
+
+    <section class="layout">
+      <form id="predictionForm" class="panel form-panel" novalidate autocomplete="off">
+        <div class="form-head">
+          <h3>Inputs</h3>
+          <div class="quick-actions">
+            <button type="button" class="ghost-button" id="loadDefaults">Defaults</button>
+            <button type="button" class="ghost-button" id="loadSample">Sample</button>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <label class="field">
+            <span>Gender</span>
+            <select name="gender" data-field="gender" required>
+              <option value="Female">Female</option>
+              <option value="Male">Male</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Partner</span>
+            <select name="Partner" data-field="Partner" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Dependents</span>
+            <select name="Dependents" data-field="Dependents" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Phone service</span>
+            <select name="PhoneService" data-field="PhoneService" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Multiple lines</span>
+            <select name="MultipleLines" data-field="MultipleLines" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No phone service">No phone service</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Online security</span>
+            <select name="OnlineSecurity" data-field="OnlineSecurity" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Online backup</span>
+            <select name="OnlineBackup" data-field="OnlineBackup" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Device protection</span>
+            <select name="DeviceProtection" data-field="DeviceProtection" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Tech support</span>
+            <select name="TechSupport" data-field="TechSupport" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Streaming TV</span>
+            <select name="StreamingTV" data-field="StreamingTV" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Streaming movies</span>
+            <select name="StreamingMovies" data-field="StreamingMovies" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Contract</span>
+            <select name="Contract" data-field="Contract" required>
+              <option value="Month-to-month">Month-to-month</option>
+              <option value="One year">One year</option>
+              <option value="Two year">Two year</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Paperless billing</span>
+            <select name="PaperlessBilling" data-field="PaperlessBilling" required>
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Payment method</span>
+            <select name="PaymentMethod" data-field="PaymentMethod" required>
+              <option value="Electronic check">Electronic check</option>
+              <option value="Mailed check">Mailed check</option>
+              <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+              <option value="Credit card (automatic)">Credit card (automatic)</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Tenure</span>
+            <input type="number" name="tenure" data-field="tenure" min="0" max="100" step="1" placeholder="Enter tenure" required>
+          </label>
+          <label class="field">
+            <span>Monthly charges</span>
+            <input type="number" name="MonthlyCharges" data-field="MonthlyCharges" min="0" step="0.01" placeholder="Enter monthly charges" required>
+          </label>
+          <label class="field field-full">
+            <span>Total charges</span>
+            <input type="number" name="TotalCharges" data-field="TotalCharges" min="0" step="0.01" placeholder="Enter total charges" required>
+          </label>
+        </div>
+
+        <div class="form-footer">
+          <button type="submit" class="primary-button" id="submitButton">Run prediction</button>
+          <p class="status" id="statusText" aria-live="polite">Ready.</p>
+        </div>
+      </form>
+
+      <div class="sidebar-stack">
+        <aside class="panel result-panel" id="resultCard" data-risk-class="low">
+          <p class="section-title">Prediction</p>
+          <div class="score-wrap">
+            <div class="meter" aria-hidden="true">
+              <div class="meter-fill" id="riskMeter"></div>
+            </div>
+            <p class="score"><span id="riskPercent">0.0%</span> risk</p>
+          </div>
+
+          <div class="result-block">
+            <p class="result-label">Risk factor</p>
+            <h2 id="riskLabel">Awaiting input</h2>
+          </div>
+
+          <div class="result-block">
+            <p class="result-label">Conclusion</p>
+            <p id="predictionText" class="result-conclusion">Run a prediction to see the result.</p>
+          </div>
+        </aside>
+
+        <aside class="panel suggestions-panel" id="suggestionsCard">
+          <p class="section-title">Suggestions</p>
+          <h3>Ways to improve retention</h3>
+          <ul class="suggestions-list" id="suggestionsList" hidden>
+            <li>Run a prediction to see tailored retention actions.</li>
+          </ul>
+          <div class="tip-banner">
+            <span class="tip-icon" aria-hidden="true">i</span>
+            <span>These recommendations are tailored to the current customer profile and churn risk.</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

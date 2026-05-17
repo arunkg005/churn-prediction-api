@@ -1,7 +1,10 @@
+import os
+
 import requests
 
-# The URL of our local API endpoint
-URL = 'http://127.0.0.1:5000/predict'
+API_BASE_URL = os.environ.get('API_BASE_URL', 'http://127.0.0.1:5000')
+ROOT_URL = API_BASE_URL.rstrip('/')
+URL = f'{API_BASE_URL.rstrip("/")}/predict'
 
 # A sample customer's data.
 # This dictionary must contain all the features your model was trained on.
@@ -28,6 +31,11 @@ sample_customer = {
 
 # Send a POST request to the API with the customer's data in JSON format
 try:
+    root_response = requests.get(ROOT_URL)
+    root_response.raise_for_status()
+    print('Root Response:')
+    print(root_response.json())
+
     response = requests.post(URL, json=sample_customer)
     response.raise_for_status()  # Raise an exception for bad status codes
     
@@ -37,7 +45,7 @@ try:
 
 except requests.exceptions.ConnectionError:
     print(f"Error: Could not connect to the API at {URL}.")
-    print("Please ensure your 'app.py' server is running in another terminal.")
+    print("Please ensure the backend API server is running in another terminal.")
 except Exception as e:
     print(f"An error occurred: {e}")
     
