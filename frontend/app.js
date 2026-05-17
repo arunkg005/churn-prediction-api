@@ -136,6 +136,7 @@ function closeInfoNotes() {
     if (note) {
       note.hidden = true;
       note.classList.remove('is-positioning');
+      note.dataset.side = 'right';
       note.style.left = '';
       note.style.right = '';
       note.style.top = '';
@@ -160,23 +161,23 @@ function toggleInfoNote(button) {
   }
 
   const buttonRect = button.getBoundingClientRect();
-  const noteWidth = Math.min(290, window.innerWidth - 40);
-  const centeredLeft = buttonRect.left + buttonRect.width / 2 - noteWidth / 2;
-  const safeLeft = Math.max(16, Math.min(centeredLeft, window.innerWidth - noteWidth - 16));
+  const noteWidth = Math.min(250, window.innerWidth - 32);
+  const gap = 10;
+  const rightPlacement = buttonRect.right + gap;
+  const leftPlacement = buttonRect.left - noteWidth - gap;
+  const fitsRight = rightPlacement + noteWidth <= window.innerWidth - 12;
+  const left = fitsRight ? rightPlacement : Math.max(12, leftPlacement);
 
   note.hidden = false;
   note.classList.add('is-positioning');
+  note.dataset.side = fitsRight ? 'right' : 'left';
 
   requestAnimationFrame(() => {
     const noteRect = note.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - buttonRect.bottom - 14;
-    const spaceAbove = buttonRect.top - 14;
-    const preferredTop = spaceBelow >= noteRect.height || spaceBelow >= spaceAbove
-      ? buttonRect.bottom + 10
-      : buttonRect.top - noteRect.height - 10;
-    const safeTop = Math.max(12, Math.min(preferredTop, window.innerHeight - noteRect.height - 12));
+    const centeredTop = buttonRect.top + (buttonRect.height / 2) - (noteRect.height / 2);
+    const safeTop = Math.max(12, Math.min(centeredTop, window.innerHeight - noteRect.height - 12));
 
-    note.style.left = `${safeLeft}px`;
+    note.style.left = `${left}px`;
     note.style.top = `${safeTop}px`;
     note.classList.remove('is-positioning');
   });
