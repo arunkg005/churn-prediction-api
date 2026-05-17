@@ -135,6 +135,10 @@ function closeInfoNotes() {
 
     if (note) {
       note.hidden = true;
+      note.classList.remove('is-positioning');
+      note.style.left = '';
+      note.style.right = '';
+      note.style.top = '';
     }
 
     button.setAttribute('aria-expanded', 'false');
@@ -155,7 +159,28 @@ function toggleInfoNote(button) {
     return;
   }
 
+  const buttonRect = button.getBoundingClientRect();
+  const noteWidth = Math.min(290, window.innerWidth - 40);
+  const centeredLeft = buttonRect.left + buttonRect.width / 2 - noteWidth / 2;
+  const safeLeft = Math.max(16, Math.min(centeredLeft, window.innerWidth - noteWidth - 16));
+
   note.hidden = false;
+  note.classList.add('is-positioning');
+
+  requestAnimationFrame(() => {
+    const noteRect = note.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - buttonRect.bottom - 14;
+    const spaceAbove = buttonRect.top - 14;
+    const preferredTop = spaceBelow >= noteRect.height || spaceBelow >= spaceAbove
+      ? buttonRect.bottom + 10
+      : buttonRect.top - noteRect.height - 10;
+    const safeTop = Math.max(12, Math.min(preferredTop, window.innerHeight - noteRect.height - 12));
+
+    note.style.left = `${safeLeft}px`;
+    note.style.top = `${safeTop}px`;
+    note.classList.remove('is-positioning');
+  });
+
   button.setAttribute('aria-expanded', 'true');
 }
 
@@ -319,6 +344,14 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     closeInfoNotes();
   }
+});
+
+window.addEventListener('scroll', () => {
+  closeInfoNotes();
+}, { passive: true });
+
+window.addEventListener('resize', () => {
+  closeInfoNotes();
 });
 
 form.addEventListener('submit', async (event) => {
